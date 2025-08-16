@@ -3,7 +3,12 @@ const express = require('express');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+app.use(cors({
+  origin: ["https://tbrief.site"],   // allow requests from your blog domain
+  methods: ["GET"],                  // restrict to GET requests only
+  credentials: false                 // no cookies needed
+}));
+
 
 const API_BASE = 'https://api.football-data.org/v4';
 const API_KEY = process.env.FOOTBALL_API_KEY;
