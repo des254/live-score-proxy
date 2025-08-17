@@ -101,6 +101,12 @@ app.get('/api/live-matches', async (req, res) => {
   }
 });
 
+// Homepage route
+app.get("/", (req, res) => {
+  res.send("✅ Live Score Proxy is running. Try /scores or /table");
+});
+
+
 app.listen(PORT, () => {
   console.log(`✅ Proxy running on port ${PORT}`);
 });
