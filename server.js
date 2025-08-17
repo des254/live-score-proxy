@@ -91,6 +91,31 @@ app.get('/scores', async (req, res) => {
   }
 });
 
+// League table endpoint
+app.get("/table", async (req, res) => {
+  try {
+    const competition = req.query.competition; // e.g. "PL" for Premier League
+    if (!competition) {
+      return res.status(400).json({ error: "Competition code required (e.g. ?competition=PL)" });
+    }
+
+    const response = await fetch(`https://api.football-data.org/v4/competitions/${competition}/standings`, {
+      headers: { "X-Auth-Token": process.env.FOOTBALL_DATA_KEY }
+    });
+
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    res.json(data);
+  } catch (err) {
+    console.error("Error fetching table:", err);
+    res.status(500).json({ error: "Failed to fetch league table" });
+  }
+});
+
+
 // (optional) keep your older route names if you used them earlier
 app.get('/api/live-matches', async (req, res) => {
   try {
